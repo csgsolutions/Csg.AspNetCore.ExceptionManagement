@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Csg.AspNetCore.ExceptionManagement</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.AspNetCore.Builder.BuilderExtensions">
+            <summary>
+            App builder extensions
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.BuilderExtensions.UseExceptionManagement(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Boolean)">
+            <summary>
+            Adds the Exception Management exception handler to the application builder using <see cref="M:Microsoft.AspNetCore.Builder.ExceptionHandlerExtensions.UseExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.Action{Microsoft.AspNetCore.Builder.IApplicationBuilder})"/>
+            </summary>
+            <param name="app"></param>
+            <param name="allowUnsafeExceptions">A value of true indicates unsafe exceptions should be passed to the handler. The default value of false replaces any unsafe exception information with a generic message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.BuilderExtensions.AddExceptionManagement(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{Csg.AspNetCore.ExceptionManagement.ExceptionManagementOptions})">
+            <summary>
+            Adds exception management related services to the service collection.
+            </summary>
+            <param name="services"></param>
+            <param name="setupAction"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.BuilderExtensions.AddWebApiDefaults(Csg.AspNetCore.ExceptionManagement.ExceptionHandlerBuilder)">
+            <summary>
+            Configures the use of the <see cref="M:Csg.AspNetCore.ExceptionManagement.Handlers.WebApiExceptionHandler(Csg.AspNetCore.ExceptionManagement.ExceptionContext)">WebApiExceptionHandler</see> handler, and a generic error response for unsafe exceptions.
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.BuilderExtensions.AddFilter(Csg.AspNetCore.ExceptionManagement.ExceptionHandlerBuilder,Csg.AspNetCore.ExceptionManagement.ExceptionFilterDelegate)">
+            <summary>
+            Adds a filter to the end of the exception management filter pipeline.
+            </summary>
+            <param name="builder"></param>
+            <param name="filter">An exception filter.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Csg.AspNetCore.ExceptionManagement.ExceptionHandlerDelegate">
+            <summary>
+            Represents a function that handles exceptions by writing to or manipulating the response.
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Csg.AspNetCore.ExceptionManagement.ExceptionFilterDelegate">
+            <summary>
+            Represents an exception filter that can set an <see cref="T:Csg.AspNetCore.ExceptionManagement.ExceptionResult"/> or manipulate an existing one.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Csg.AspNetCore.ExceptionManagement.ExceptionContext">
+            <summary>
+            Encapulates the current http request, the thrown exception, and the result.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionContext.Error">
+            <summary>
+            Gets or sets the exception that was thrown causing the exception middleware to be triggered.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionContext.ErrorID">
+            <summary>
+            Gets or sets a unique identifier that can uniquely identify this exception.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionContext.HttpContext">
+            <summary>
+            Gets or sets the HttpContext represnting the current request.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionContext.Result">
+            <summary>
+            Gets or sets the exception result. If no exception filter sets this value, one will be automatically created fron the <see cref="P:Csg.AspNetCore.ExceptionManagement.ExceptionContext.Error"/>
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionContext.Options">
+            <summary>
+            Gets a reference to the configured exception mangement options.
+            </summary>
+        </member>
+        <member name="T:Csg.AspNetCore.ExceptionManagement.ExceptionManagementOptions">
+            <summary>
+            Represents the options for the exception management middleware.
+            </summary>
+        </member>
+        <member name="F:Csg.AspNetCore.ExceptionManagement.ExceptionManagementOptions.GenericErrorResult">
+            <summary>
+            Provides a generic error message.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionManagementOptions.Handler">
+            <summary>
+            Gets or sets the handler that will be used to return a response to the caller.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionManagementOptions.Filters">
+            <summary>
+            Gets or sets the list which defines the pipeline of exception filters.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionManagementOptions.UnsafeResult">
+            <summary>
+            Gets or sets the exception result that will be used when a generic error message is used in lieu of the actual message.
+            </summary>
+        </member>
+        <member name="T:Csg.AspNetCore.ExceptionManagement.ExceptionResult">
+            <summary>
+            Represents an exception that will be sent to the caller.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionResult.StatusCode">
+            <summary>
+            Gets or sets the HTTP Status code to use in the response.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionResult.ErrorTitle">
+            <summary>
+            Gets or sets the error title that will be used.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionResult.ErrorDetail">
+            <summary>
+            Gets or sets the error message detail that can be used by the exception handler to provide additional information to the caller.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.ExceptionResult.IsSafe">
+            <summary>
+            Gets or sets a value that indicates if this error message is safe to send to callers in a production environment.
+            </summary>
+        </member>
+        <member name="M:Csg.AspNetCore.ExceptionManagement.ExceptionResult.Create(System.Exception)">
+            <summary>
+            Creates a new result from the given exception
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Csg.AspNetCore.ExceptionManagement.Filters.UnsafeExceptionFilter(Csg.AspNetCore.ExceptionManagement.ExceptionContext)">
+            <summary>
+            This filter sets the <see cref="P:Csg.AspNetCore.ExceptionManagement.ExceptionContext.Result">exception result</see> to the value of <see cref="P:Csg.AspNetCore.ExceptionManagement.ExceptionManagementOptions.UnsafeResult"/> if the existing result is not marked as safe.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Csg.AspNetCore.ExceptionManagement.Handlers.WebApiExceptionHandler(Csg.AspNetCore.ExceptionManagement.ExceptionContext)">
+            <summary>
+            This handler formats the error response as JSON or plain text depending on the value of the request's Accept header.
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Csg.AspNetCore.ExceptionManagement.SR">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.SR.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.SR.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.SR.GenericErrorDetail">
+            <summary>
+              Looks up a localized string similar to An unknown error has occurred..
+            </summary>
+        </member>
+        <member name="P:Csg.AspNetCore.ExceptionManagement.SR.GenericErrorTitle">
+            <summary>
+              Looks up a localized string similar to An error occurred.
+            </summary>
+        </member>
+    </members>
+</doc>

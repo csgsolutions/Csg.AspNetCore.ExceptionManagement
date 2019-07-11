@@ -16,9 +16,9 @@ Param(
 
 $Solution =  "$(Get-Item -Path *.sln | Select-Object -First 1)"
 $OutputPackages = @(
-	".\src\Classlib\ClassLib.csproj"
+	".\src\Csg.AspNetCore.ExceptionManagement\*.csproj"
 )
-$TestProjects = Get-Item -Path tests\**\*Tests.csproj | %{ $_.FullName }
+$TestProjects = Get-Item -Path tests\**\*Unitests.csproj | %{ $_.FullName }
 
 Write-Host "=============================================================================="
 Write-Host "The Build Script"

@@ -1,46 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Csg.AspNetCore.ExceptionManagement
 {
-    public class ExceptionHandlerBuilder
-    {
-        public ExceptionHandlerBuilder(IServiceCollection services)
-        {
-            this.Services = services;
-        }
-
-        public IServiceCollection Services { get; private set; }
-    }
-
-    public class Filters
-    {
-        public static void UnsafeExceptionFilter(ExceptionContext context)
-        {
-            if (!context.Result.IsSafe)
-            {
-                if (context.Options.UnsafeExceptionResult == null)
-                {
-                    throw new Exception($"The configuration option {nameof(context.Options.UnsafeExceptionResult)} is null");
-                }
-
-                context.Result = context.Options.UnsafeExceptionResult;
-            }
-        }
-    }
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
     public class Handlers
     {
         private static readonly MediaTypeHeaderValue TextMediaType = MediaTypeHeaderValue.Parse("text/plain");
         private static readonly MediaTypeHeaderValue JsonMediaType = MediaTypeHeaderValue.Parse("application/json");
 
+        /// <summary>
+        /// This handler formats the error response as JSON or plain text depending on the value of the request's Accept header.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static async Task WebApiExceptionHandler(ExceptionContext context)
         {
             var httpContext = context.HttpContext;

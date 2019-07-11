@@ -4,14 +4,33 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="[9.0.1,)"/>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="[2.2.0,)"/>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="[2.2.0,)"/>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[2.2.0,)"/>
-    <PackageReference Include="Microsoft.Extensions.Options" Version="[2.2.0,)"/>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="[2.2.0,)"/>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\code\github\Csg.AspNetCore.ExceptionManagement\src\Csg.AspNetCore.ExceptionManagement\Csg.AspNetCore.ExceptionManagement.xml</DocumentationFile>
+  </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="[9.0.1,)" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="[2.2.0,)" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="[2.2.0,)" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[2.2.0,)" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="[2.2.0,)" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="[2.2.0,)" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="SR.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SR.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
