@@ -27,7 +27,7 @@ namespace Csg.AspNetCore.ExceptionManagement
 
             httpContext.Response.StatusCode = context.Result.StatusCode;
 
-            if (requestHeaders.Accept.Any(x => JsonMediaType.IsSubsetOf(x)))
+            if (requestHeaders.Accept == null || requestHeaders.Accept?.Any(x => JsonMediaType.IsSubsetOf(x)) == true)
             {
                 httpContext.Response.ContentType = "application/json; chartset=utf8";
 
@@ -42,7 +42,7 @@ namespace Csg.AspNetCore.ExceptionManagement
 
                 await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(errorResponse));
             }
-            else if (requestHeaders.Accept.Any(x => TextMediaType.IsSubsetOf(x)))
+            else if (requestHeaders.Accept?.Any(x => TextMediaType.IsSubsetOf(x)) == true)
             {
                 httpContext.Response.ContentType = "text/plain";
 
