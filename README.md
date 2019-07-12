@@ -11,9 +11,16 @@ Provides basic exception management for an ASP.NET Core Web API.
 
 # Getting Started
 
-Install the Nuget Package from the list above.
+Install the Nuget Package from one of the sources above.
 
-### Add Services
+```
+dotnet add package Csg.AspNetCore.ExceptionManagement
+```
+```xml
+<PackageReference Include="Csg.AspNetCore.ExceptionManagement" Version="<version>" />
+```
+
+## Add Services
 Register the exception management related services in ```ConfigureServices()```
 
 ```csharp
@@ -25,7 +32,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-### Add Middlware
+## Add Middlware
 Add the exception management middleware (exception handler) into the exception handler pipeline.
 ```csharp
 public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -42,7 +49,7 @@ that all error messages are marked as safe when running in a development environ
 environment, you can use Filters to ensure that only the exception data you want to return to the caller
 is sent.
 
-### Adding Filters
+## Adding Filters
 An exception filter is a method (usually static) matching the signature of the following delegate:
 
 ```csharp
@@ -95,7 +102,7 @@ The context.Result property must be set to an instance of ExceptionResult, which
 The ErrorData property can be used to return complex objects to the caller with additional
 error information.
 
-### Using a Custom Handler
+## Using a Custom Handler
 
 Options can be configured by using a setup action with ```AddExceptionManagement()```.
 
@@ -113,7 +120,7 @@ A handler must be a function that matches the ```ExceptionHandlerDelegate``` met
 public delegate Task ExceptionHandlerDelegate(ExceptionContext context);
 ```
 
-### Using a Custom Unsafe Result
+## Using a Custom Unsafe Result
 When using ```AddWebApiDefaults()```, the value of the UnsafeResult configuration option is passed to the exception handler when:
  *  ```ExceptionContext.Result.IsSafe == true```
  *  and ```allowUnsafeExceptions``` passed to ```UseExceptionManagement()``` is ```false``` (the default).
@@ -135,29 +142,27 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-### Default Handler Behavior
+## Default Handler Behavior
 
-When using ```AddWebApiDefaults()```, the configured handler writes the following output:
-
-When the request Accept header is for text/plain:
+When using ```AddWebApiDefaults()```, the configured handler is ```Handlers.WebApiExceptionHandler```. 
+This handler produces the following output when the request Accept header is for text/plain:
 ```
 ID: <value>
 Title: <value>
 Detail: <value>
 ErrorCode: <value>
 ```
-
-When the request Accept header is missing or for application/json:
+and this output when the request Accept header is missing or for application/json:
 ```json
 {
     "ID": "<guid>",
-    "Title": "<value>",
-    "Detail": "<value>",
-    "ErrorCode": "<value>",
-    "ErrorData": { } 
+    "Title": "<value of Result.ErrorTitle>",
+    "Detail": "<value of Result.ErrorDetail>",
+    "Code": "<value of Result.ErrorCode>",
+    "Data": { Result.ErrorData }
 }
 ```
 
-All the above values are from the ExceptionResult, with the exception of ID. The ID property is 
-on the ExceptionContext object passed into each filter, and by default contains a new UUID 
-(generated with ```System.Guid.NewGuid()```). The ID property can be assigned by any registered filter.
+All the above values are from their corresponding properties on ExceptionResult, with the exception of ID,
+which is from the ErrorID on the ExceptionContext object passed into each filter. By default, this contains
+a new UUID (generated with ```System.Guid.NewGuid()```). The ID property can be assigned by any registered filter.
