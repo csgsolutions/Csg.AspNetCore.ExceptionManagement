@@ -44,11 +44,14 @@ is sent.
 
 ### Adding Filters
 An exception filter is a method (usually static) matching the signature of the following delegate:
+
 ```csharp
 public delegate void ExceptionFilterDelegate(ExceptionContext context);
 ```
+
 For example, to build an exception filter that handles any thrown ```SqlException```, the following
 filter could be used:
+
 ```csharp
 public class ExceptionFilters
 {
@@ -78,6 +81,20 @@ services.AddExceptionManagement()
     .AddFilter(ExceptionFilters.FilterSqlExceptions);
 ```
 
+The context.Result property must be set to an instance of ExceptionResult, which has the following properties:
+
+| Property  | Data Type | Default Value  | Description  | 
+|---|---|---|---|---|
+| StatusCode | Int32 | 500  | The HTTP Status Code that should be sent in the response. |
+| IsSafe | String | false  | Indicates if the error information provided is safe to display to a caller in any environment. |
+| ErrorCode | String | null | An opaque value used to convey information to a caller. | 
+| ErrorTitle | String | null | An opaque value used to convey information to a caller. |
+| ErrorDetail | String | null | An opaque value used to convey information to a caller. |
+| ErrorData | Object | null | An opaque value used to convey information to a caller. |
+
+The ErrorData property can be used to return complex objects to the caller with additional
+error information.
+
 ### Using a Custom Handler
 
 Options can be configured by using a setup action with ```AddExceptionManagement()```.
@@ -97,10 +114,11 @@ public delegate Task ExceptionHandlerDelegate(ExceptionContext context);
 ```
 
 ### Using a Custom Unsafe Result
+When using ```AddWebApiDefaults()```, the value of the UnsafeResult configuration option is passed to the exception handler when:
+ *  ```ExceptionContext.Result.IsSafe == true```
+ *  and ```allowUnsafeExceptions``` passed to ```UseExceptionManagement()``` is ```false``` (the default).
 
-The value of the UnsafeResult option is passed to the exception handler when an ```ExceptionResult```
-is not marked with ```IsSafe=true``` and the ```allowUnsafeExceptions``` parameter passed to 
-```UseExceptionManagement()``` is ```false``` (the default). You can set a custom UnsafeResult when adding the services registration:
+You can use a custom UnsafeResult instead by setting the configuration option.
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -117,11 +135,11 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-### Custom Data in the Response
+### Default Handler Behavior
 
-The default handler passes the following payloads depending on content negotiation:
+When using ```AddWebApiDefaults()```, the configured handler writes the following output:
 
-Plain Text:
+When the request Accept header is for text/plain:
 ```
 ID: <value>
 Title: <value>
@@ -129,7 +147,7 @@ Detail: <value>
 ErrorCode: <value>
 ```
 
-JSON:
+When the request Accept header is missing or for application/json:
 ```json
 {
     "ID": "<guid>",
@@ -139,3 +157,7 @@ JSON:
     "ErrorData": { } 
 }
 ```
+
+All the above values are from the ExceptionResult, with the exception of ID. The ID property is 
+on the ExceptionContext object passed into each filter, and by default contains a new UUID 
+(generated with ```System.Guid.NewGuid()```). The ID property can be assigned by any registered filter.

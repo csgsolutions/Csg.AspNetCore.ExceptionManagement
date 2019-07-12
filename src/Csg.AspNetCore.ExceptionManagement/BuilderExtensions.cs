@@ -79,8 +79,8 @@ namespace Microsoft.AspNetCore.Builder
         {
             builder.Services.Configure<ExceptionManagementOptions>(options =>
             {
-                options.Handler = Handlers.WebApiExceptionHandler;
-                options.UnsafeResult = ExceptionManagementOptions.GenericErrorResult;
+                options.Handler = options.Handler ?? Handlers.WebApiExceptionHandler;
+                options.UnsafeResult = options.UnsafeResult ?? ExceptionManagementOptions.GenericErrorResult;
             });
 
             return builder;
