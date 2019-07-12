@@ -25,6 +25,16 @@ namespace Csg.AspNetCore.ExceptionManagement
         public string ErrorDetail { get; set; }
 
         /// <summary>
+        /// Gets or sets a string that can be used to provide additional error detail. 
+        /// </summary>
+        public string ErrorCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets an object that can be used to provide additional error detail. 
+        /// </summary>
+        public object ErrorData { get; set; }
+
+        /// <summary>
         /// Gets or sets a value that indicates if this error message is safe to send to callers in a production environment.
         /// </summary>
         public bool IsSafe { get; set; } = false;

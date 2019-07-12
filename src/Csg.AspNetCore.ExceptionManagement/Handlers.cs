@@ -33,9 +33,11 @@ namespace Csg.AspNetCore.ExceptionManagement
 
                 var errorResponse = new
                 {
-                    ErrorID = context.ErrorID,
+                    ID = context.ErrorID,
                     Title = context.Result.ErrorTitle,
-                    Detail = context.Result.ErrorDetail
+                    Detail = context.Result.ErrorDetail,
+                    Code = context.Result.ErrorCode,
+                    Data = context.Result.ErrorData
                 };
 
                 await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(errorResponse));
