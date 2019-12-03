@@ -31,13 +31,19 @@ namespace Csg.AspNetCore.ExceptionManagement
             {
                 httpContext.Response.ContentType = "application/json; chartset=utf8";
 
+                // be compatible with https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.mvc.problemdetails?view=aspnetcore-2.2
                 var errorResponse = new
                 {
-                    ID = context.ErrorID,
                     Title = context.Result.ErrorTitle,
                     Detail = context.Result.ErrorDetail,
-                    Code = context.Result.ErrorCode,
-                    Data = context.Result.ErrorData
+                    Extensions = new
+                    {
+                        ID = context.ErrorID,
+                        Code = context.Result.ErrorCode,
+                        Data = context.Result.ErrorData,
+                    },
+                    Status = context.Result.StatusCode,
+                    Instance = context.HttpContext.Request.Path
                 };
 
                 await httpContext.Response.WriteAsync(JsonConvert.SerializeObject(errorResponse));
