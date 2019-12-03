@@ -43,14 +43,28 @@ namespace Csg.AspNetCore.ExceptionManagement
         /// Creates a new result from the given exception
         /// </summary>
         /// <param name="ex"></param>
+        /// <param name="isSafe">Specifies whether the result will be marked as safe to return detailed information to the caller.</param>
+        /// <param name="errorCode">An application specific error code.</param>
+        /// <param name="errorData">An application specific error object.</param>
+        /// <param name="statusCode">The HTTP status code to use in the response. The default value is 500 if not specified.</param>
         /// <returns></returns>
-        public static ExceptionResult Create(Exception ex)
+        public static ExceptionResult Create(Exception ex, bool isSafe = false, string errorCode = null, object errorData = null, int? statusCode = null)
         {
-            return new ExceptionResult()
+            var result = new ExceptionResult()
             {
                 ErrorTitle = ex.Message,
-                ErrorDetail = ex.StackTrace
+                ErrorDetail = ex.StackTrace,
+                ErrorCode = errorCode,
+                ErrorData = errorData,
+                IsSafe = isSafe
             };
+
+            if (statusCode.HasValue)
+            {
+                result.StatusCode = statusCode.Value;
+            }
+
+            return result;
         }
 
     }

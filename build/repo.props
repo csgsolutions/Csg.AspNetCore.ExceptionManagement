@@ -6,9 +6,16 @@
   <PropertyGroup>
     <PackageIconUrl>https://csgstorpub.blob.core.windows.net/images/csg-square-64.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/csgsolutions/Csg.AspNetCore.ExceptionManagement</PackageProjectUrl>
-    <PackageLicenseUrl></PackageLicenseUrl>
     <Owner>CSG</Owner>
     <Authors>CSG</Authors>
     <Copyright>2019 Cornerstone Solutions Group</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>    
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>false</IncludeSymbols>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/csgsolutions/Csg.AspNetCore.ExceptionManagement</RepositoryUrl>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
 </Project>

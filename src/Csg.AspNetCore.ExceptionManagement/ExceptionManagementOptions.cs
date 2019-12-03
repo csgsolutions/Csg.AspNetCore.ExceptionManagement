@@ -14,8 +14,7 @@ namespace Csg.AspNetCore.ExceptionManagement
         {
             IsSafe = true,
             ErrorTitle = SR.GenericErrorTitle,
-            ErrorDetail = SR.GenericErrorDetail,
-            StatusCode = 500
+            ErrorDetail = SR.GenericErrorDetail
         };
 
         /// <summary>

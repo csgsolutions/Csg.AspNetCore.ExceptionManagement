@@ -52,7 +52,7 @@ namespace Csg.AspNetCore.ExceptionManagement
             {
                 httpContext.Response.ContentType = "text/plain";
 
-                await httpContext.Response.WriteAsync($"Error: {context.Result.ErrorTitle}\nDetail: ${context.Result.ErrorDetail}");
+                await httpContext.Response.WriteAsync($"Error: {context.Result.ErrorTitle}\nDetail: {context.Result.ErrorDetail}");
             }
         }
     }

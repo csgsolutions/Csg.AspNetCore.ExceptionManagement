@@ -21,11 +21,3 @@ steps:
   inputs:
     PathtoPublish: src/Csg.AspNetCore.ExceptionManagement/bin/Release
     ArtifactName: classlib
-- powershell: |
-   $BuildNumber=$env:BUILD_BUILDNUMBER
-   [xml]$xml = Get-Content .\version.props
-   $versionPrefix = $xml.Project.PropertyGroup.VersionPrefix
-   $versionSuffix = $xml.Project.PropertyGroup.VersionSuffix[0]
-   Write-Output "##vso[build.updatebuildnumber]$versionPrefix-$versionSuffix-$BuildNumber"
-  displayName: 'Set Build Number'
-  condition: succeededOrFailed()
