@@ -122,7 +122,7 @@ public delegate Task ExceptionHandlerDelegate(ExceptionContext context);
 
 ## Using a Custom Unsafe Result
 When using ```AddWebApiDefaults()```, the value of the UnsafeResult configuration option is passed to the exception handler when:
- *  ```ExceptionContext.Result.IsSafe == true```
+ *  ```ExceptionContext.Result.IsSafe == false```
  *  and ```allowUnsafeExceptions``` passed to ```UseExceptionManagement()``` is ```false``` (the default).
 
 You can use a custom UnsafeResult instead by setting the configuration option.
