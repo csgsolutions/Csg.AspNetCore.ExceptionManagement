@@ -1,6 +1,7 @@
 name: $(Rev:rrrrr)
 pool:
-  image: "windows-2019"
+  vmImage: 'windows-latest'
+
 trigger:
 - master
 - rel/*
