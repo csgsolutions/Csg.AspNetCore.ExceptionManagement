@@ -27,7 +27,8 @@ namespace Csg.AspNetCore.ExceptionManagement
 
             httpContext.Response.StatusCode = context.Result.StatusCode;
 
-            if (requestHeaders.Accept == null || requestHeaders.Accept?.Any(x => JsonMediaType.IsSubsetOf(x)) == true)
+            // If no accept header is sent, assume we want JSON I guess.
+            if (requestHeaders.Accept == null || requestHeaders.Accept.Count == 0 || requestHeaders.Accept?.Any(x => JsonMediaType.IsSubsetOf(x)) == true)
             {
                 httpContext.Response.ContentType = "application/json; chartset=utf8";
 
@@ -53,6 +54,10 @@ namespace Csg.AspNetCore.ExceptionManagement
                 httpContext.Response.ContentType = "text/plain";
 
                 await httpContext.Response.WriteAsync($"Error: {context.Result.ErrorTitle}\nDetail: {context.Result.ErrorDetail}");
+            }
+            else
+            {
+                //Should we write something here? Should
             }
         }
     }
