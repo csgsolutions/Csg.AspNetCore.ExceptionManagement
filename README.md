@@ -154,15 +154,19 @@ ErrorCode: <value>
 ```
 and this output when the request Accept header is missing or for application/json:
 ```json
-{
-    "ID": "<guid>",
-    "Title": "<value of Result.ErrorTitle>",
-    "Detail": "<value of Result.ErrorDetail>",
-    "Code": "<value of Result.ErrorCode>",
-    "Data": { Result.ErrorData }
+{    
+    "title": "<value of Result.ErrorTitle>",
+    "detail": "<value of Result.ErrorDetail>",    
+    "instance": "<value of HttpContext.Request.Path>"
+    "extensions":{
+        "id": "<value of ExceptionContext.ErrorID>",
+        "code": "<value of Result.ErrorCode>",
+        "data": { Result.ErrorData },        
+    }
 }
 ```
 
 All the above values are from their corresponding properties on ExceptionResult, with the exception of ID,
 which is from the ErrorID on the ExceptionContext object passed into each filter. By default, this contains
 a new UUID (generated with ```System.Guid.NewGuid()```). The ID property can be assigned by any registered filter.
+
