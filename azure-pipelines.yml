@@ -9,7 +9,7 @@ trigger:
     - rel/*
   paths:
     exclude:
-    - readme.md
+    - README.md
 steps:
 - task: PowerShell@1
   displayName: 'Build + Test'
