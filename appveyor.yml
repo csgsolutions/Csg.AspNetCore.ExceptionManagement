@@ -2,3 +2,6 @@ version: '{build}'
 image: Visual Studio 2019
 build_script:
 - ps: .\build.ps1 -BuildNumber $env:APPVEYOR_BUILD_NUMBER
+skip_commits:
+  files:
+    - readme.md
