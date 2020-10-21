@@ -158,11 +158,9 @@ and this output when the request Accept header is missing or for application/jso
     "title": "<value of Result.ErrorTitle>",
     "detail": "<value of Result.ErrorDetail>",    
     "instance": "<value of HttpContext.Request.Path>"
-    "extensions":{
-        "id": "<value of ExceptionContext.ErrorID>",
-        "code": "<value of Result.ErrorCode>",
-        "data": { Result.ErrorData },        
-    }
+    "id": "<value of ExceptionContext.ErrorID>",
+    "code": "<value of Result.ErrorCode>",
+    "data": { Result.ErrorData }
 }
 ```
 
